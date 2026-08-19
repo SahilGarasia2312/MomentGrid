@@ -1,0 +1,279 @@
+/* ─── MomentGrid Design System ─────────────────────────────────────────── */
+/* Global CSS tokens, reset, typography, and utility classes                */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Light Mode Token Defaults ─────────────────────────────────────────── */
+:root {
+  /* ── 6-Color Luxury Palette: Diamond, Silver, Icy Lake, Golden, Sapphire, Black Tie ── */
+  /* Brand — stable across modes */
+  --color-brand-primary:    #D4A052;   /* GOLDEN */
+  --color-brand-accent:     #E5B873;   /* Luminous Golden */
+  --color-brand-secondary:  #121111;   /* BLACK TIE */
+  --color-brand-emerald:    #234F60;   /* SAPPHIRE */
+  --color-brand-emerald-light: #35677B; /* Lighter Sapphire */
+  --color-brand-burgundy:   #234F60;   /* SAPPHIRE deep tie */
+  --color-brand-burgundy-light: #3D6B7E;
+  --color-brand-obsidian:   #121111;   /* BLACK TIE */
+  --color-brand-charcoal:   #1D262B;   /* Sapphire-laced Black Tie */
+
+  /* Surfaces (Light Mode: Diamond -> Silver -> Icy Lake) */
+  --color-surface-0:        #FFFFFF;   /* DIAMOND */
+  --color-surface-1:        #EFEFEF;   /* SILVER */
+  --color-surface-2:        #DFE6E6;   /* ICY LAKE */
+  --color-surface-3:        #D0DBDB;   /* Deep Icy Lake */
+
+  /* Borders */
+  --color-border:           #DFE6E6;   /* ICY LAKE */
+  --color-border-strong:    #C2D0D0;
+
+  /* Text (Light Mode: Black Tie & Sapphire) */
+  --color-text-primary:     #121111;   /* BLACK TIE */
+  --color-text-secondary:   #234F60;   /* SAPPHIRE */
+  --color-text-tertiary:    #587884;   /* Soft Sapphire */
+  --color-text-inverse:     #FFFFFF;   /* DIAMOND */
+  --color-text-brand:       #D4A052;   /* GOLDEN */
+  --color-text-emerald:     #234F60;   /* SAPPHIRE */
+  --color-text-burgundy:    #121111;   /* BLACK TIE */
+
+  /* Semantic tints */
+  --color-emerald-subtle:   #DFE6E6;   /* ICY LAKE */
+  --color-emerald-text:     #234F60;   /* SAPPHIRE */
+  --color-burgundy-subtle:  #EFEFEF;   /* SILVER */
+  --color-burgundy-text:    #121111;   /* BLACK TIE */
+  --color-gold-subtle:      #FBF6EE;   /* Soft Golden cream */
+
+  /* Status */
+  --color-success:          #234F60;   /* SAPPHIRE */
+  --color-success-subtle:   #DFE6E6;   /* ICY LAKE */
+  --color-warning:          #D4A052;   /* GOLDEN */
+  --color-warning-subtle:   #FBF6EE;
+  --color-error:            #A83232;
+  --color-error-subtle:     #FDF2F2;
+  --color-info:             #234F60;   /* SAPPHIRE */
+  --color-info-subtle:      #DFE6E6;   /* ICY LAKE */
+
+  /* Gradients */
+  --gradient-hero:            linear-gradient(135deg, #121111 0%, #1A272E 50%, #121111 100%);
+  --gradient-gold:            linear-gradient(135deg, #E5B873 0%, #D4A052 50%, #B08039 100%);
+  --gradient-emerald:         linear-gradient(135deg, #35677B 0%, #234F60 100%);
+  --gradient-burgundy:        linear-gradient(135deg, #234F60 0%, #121111 100%);
+  --gradient-obsidian:        linear-gradient(135deg, #121111 0%, #1D262B 100%);
+  --gradient-section-light:   linear-gradient(180deg, #FFFFFF 0%, #EFEFEF 100%);
+
+  /* Component radii */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 24px;
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --transition-fast:     120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal:   220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-moderate: 340ms cubic-bezier(0, 0, 0.2, 1);
+  --transition-spring:   240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Dark Mode Token Overrides ─────────────────────────────────────────── */
+.dark {
+  /* Surfaces (Dark Mode: Black Tie -> Sapphire-laced darks) */
+  --color-surface-0:        #121111;   /* BLACK TIE */
+  --color-surface-1:        #161A1D;   /* Black Tie + Sapphire trace */
+  --color-surface-2:        #1D2A30;   /* Elevated Sapphire dark */
+  --color-surface-3:        #234F60;   /* SAPPHIRE */
+
+  /* Borders */
+  --color-border:           #234F60;   /* SAPPHIRE border */
+  --color-border-strong:    #35677B;
+
+  /* Text (Dark Mode: Diamond & Icy Lake on Black Tie/Sapphire) */
+  --color-text-primary:     #FFFFFF;   /* DIAMOND */
+  --color-text-secondary:   #DFE6E6;   /* ICY LAKE */
+  --color-text-tertiary:    #9BB4B8;   /* Soft Icy Lake */
+  --color-text-inverse:     #121111;   /* BLACK TIE */
+
+  /* Semantic tints inverted for dark mode */
+  --color-emerald-subtle:   rgba(35, 79, 96, 0.35);   /* SAPPHIRE overlay */
+  --color-emerald-text:     #DFE6E6;                  /* ICY LAKE text */
+  --color-burgundy-subtle:  rgba(18, 17, 17, 0.65);   /* BLACK TIE overlay */
+  --color-burgundy-text:    #D4A052;                  /* GOLDEN text */
+  --color-gold-subtle:      rgba(212, 160, 82, 0.18); /* GOLDEN overlay */
+
+  /* Status */
+  --color-success-subtle:   rgba(35, 79, 96, 0.30);
+  --color-warning-subtle:   rgba(212, 160, 82, 0.22);
+  --color-error-subtle:     rgba(168, 50, 50, 0.25);
+  --color-info-subtle:      rgba(35, 79, 96, 0.30);
+
+  /* Gradient warm in dark = Black Tie / Sapphire overlay */
+  --gradient-section-light: linear-gradient(180deg, #121111 0%, #161A1D 100%);
+}
+
+/* ── CSS Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-1);
+  line-height: 1.6;
+  min-height: 100vh;
+  /* Smooth mode transition — matches toggle speed */
+  transition: background-color 280ms ease, color 280ms ease;
+}
+
+img, video { max-width: 100%; display: block; }
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: var(--color-text-brand);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover { color: var(--color-brand-primary); }
+
+/* ── Focus Ring ────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar           { width: 5px; height: 5px; }
+::-webkit-scrollbar-track     { background: var(--color-surface-2); }
+::-webkit-scrollbar-thumb     { background: var(--color-border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+
+/* ── Selection ─────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(200, 169, 110, 0.25);
+  color: var(--color-text-primary);
+}
+
+/* ── Keyframe Animations ────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes floatUp {
+  0%,  100% { transform: translateY(0px);   }
+  50%        { transform: translateY(-10px); }
+}
+
+@keyframes pulseGlow {
+  0%,  100% { opacity: 0.25; }
+  50%        { opacity: 0.55; }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0);   }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX( 8px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX( 4px); }
+}
+
+@keyframes themeIconIn {
+  from { opacity: 0; transform: scale(0.6) rotate(-30deg); }
+  to   { opacity: 1; transform: scale(1)   rotate(0deg);   }
+}
+
+/* ── Utility Classes ────────────────────────────────────────────────────── */
+.animate-fade-up   { animation: fadeUp   0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-fade-in   { animation: fadeIn   0.30s ease both; }
+.animate-float     { animation: floatUp  6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulseGlow 4s ease-in-out infinite; }
+.animate-shake     { animation: shake    0.4s ease; }
+.animate-theme-icon { animation: themeIconIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
+}
+
+/* ── Universal Light Mode Auto-Adaptation Layer ─────────────────────────── */
+/* Ensures inline #161628, #121220, #0c0c14 cards automatically adapt in Light Mode */
+html:not(.dark) [style*="#161628"],
+html:not(.dark) [style*="rgb(22, 22, 40)"],
+html:not(.dark) [style*="#121220"],
+html:not(.dark) [style*="rgb(18, 18, 32)"],
+html:not(.dark) [style*="#0c0c14"],
+html:not(.dark) [style*="rgb(12, 12, 20)"],
+html:not(.dark) [style*="#161d28"],
+html:not(.dark) [style*="#1e2430"],
+html:not(.dark) [style*="#141a24"],
+html:not(.dark) [style*="rgba(0, 0, 0, 0.2)"] {
+  background-color: var(--color-surface-0) !important;
+  border-color: var(--color-border) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) [style*="#F8F6F3"],
+html:not(.dark) [style*="rgb(248, 246, 243)"],
+html:not(.dark) [style*="#DFE6E6"] {
+  color: var(--color-text-primary) !important;
+}
+
+html:not(.dark) [style*="#9A9AA6"],
+html:not(.dark) [style*="rgb(154, 154, 166)"],
+html:not(.dark) [style*="#B8B8C6"],
+html:not(.dark) [style*="rgb(184, 184, 198)"] {
+  color: var(--color-text-tertiary) !important;
+}
+
+html:not(.dark) [style*="rgba(255, 255, 255, 0.08)"],
+html:not(.dark) [style*="rgba(255, 255, 255, 0.1)"],
+html:not(.dark) [style*="rgba(255, 255, 255, 0.04)"],
+html:not(.dark) [style*="rgba(255, 255, 255, 0.05)"] {
+  border-color: var(--color-border) !important;
+}

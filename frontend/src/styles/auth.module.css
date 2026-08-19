@@ -1,0 +1,693 @@
+/* ─── Auth Layout & Component Styles ────────────────────────────────────── */
+
+/* ── Two-Column Auth Layout ───────────────────────────────────────────── */
+.authLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* Left panel — form */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 56px;
+  background: var(--color-surface-0);
+  overflow-y: auto;
+}
+
+/* Right panel — visual */
+.authVisual {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: var(--gradient-hero);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 48px;
+  overflow: hidden;
+}
+
+.authVisualBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.authVisualOrb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.2;
+  animation: drift 8s ease-in-out infinite;
+}
+
+.authVisualOrb:nth-child(1) {
+  width: 300px; height: 300px;
+  background: var(--color-brand-primary);
+  top: 10%; left: 20%;
+  animation-delay: 0s;
+}
+
+.authVisualOrb:nth-child(2) {
+  width: 200px; height: 200px;
+  background: var(--color-brand-accent);
+  top: 50%; right: 10%;
+  animation-delay: -3s;
+}
+
+.authVisualOrb:nth-child(3) {
+  width: 150px; height: 150px;
+  background: var(--color-brand-primary);
+  bottom: 20%; left: 40%;
+  animation-delay: -6s;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  33%       { transform: translateY(-20px) translateX(10px); }
+  66%       { transform: translateY(10px) translateX(-15px); }
+}
+
+.authVisualContent {
+  position: relative;
+  z-index: 1;
+}
+
+.authVisualQuote {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.4;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.authVisualAuthor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.authorAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-brand-secondary);
+  flex-shrink: 0;
+}
+
+.authorInfo { display: flex; flex-direction: column; }
+.authorName { color: #fff; font-size: 14px; font-weight: 600; }
+.authorRole { color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 2px; }
+
+/* ── Logo ─────────────────────────────────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+
+.logoMark {
+  width: 36px;
+  height: 36px;
+  background: var(--gradient-gold);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-brand-secondary);
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-brand-secondary);
+  letter-spacing: -0.5px;
+}
+
+/* ── Auth Form Header ─────────────────────────────────────────────────── */
+.formHeader { margin-bottom: 32px; }
+
+.formTitle {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.formSubtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Step Progress (Register) ─────────────────────────────────────────── */
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 32px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.step:last-child { flex: 0; }
+
+.stepNumber {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.stepNumber.active {
+  border-color: var(--color-brand-primary);
+  background: var(--color-brand-primary);
+  color: #fff;
+}
+
+.stepNumber.completed {
+  border-color: var(--color-success);
+  background: var(--color-success);
+  color: #fff;
+}
+
+.stepLabel {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.stepLabel.active { color: var(--color-brand-primary); font-weight: 600; }
+.stepLabel.completed { color: var(--color-success); }
+
+.stepConnector {
+  flex: 1;
+  height: 2px;
+  background: var(--color-border);
+  margin: 0 8px;
+  transition: background var(--transition-normal);
+}
+
+.stepConnector.completed { background: var(--color-success); }
+
+/* ── Role Cards ───────────────────────────────────────────────────────── */
+.roleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.roleCard {
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: all var(--transition-spring);
+  text-align: center;
+  background: var(--color-surface-0);
+  position: relative;
+  overflow: hidden;
+}
+
+.roleCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-gold);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.roleCard:hover {
+  border-color: var(--color-brand-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.roleCard.selected {
+  border-color: var(--color-brand-primary);
+  box-shadow: var(--shadow-gold);
+}
+
+.roleCard.selected::before { opacity: 0.06; }
+
+.roleIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--color-brand-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  color: var(--color-text-brand);
+  transition: all var(--transition-normal);
+  position: relative;
+  z-index: 1;
+}
+
+.roleCard.selected .roleIcon {
+  background: var(--gradient-gold);
+  color: var(--color-brand-secondary);
+}
+
+.roleName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.roleDesc {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+.selectedBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 10px;
+}
+
+/* ── Form Fields ──────────────────────────────────────────────────────── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  letter-spacing: 0.01em;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+  display: flex;
+  transition: color var(--transition-fast);
+}
+
+.inputSuffix {
+  position: absolute;
+  right: 14px;
+  color: var(--color-text-tertiary);
+  display: flex;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.inputSuffix:hover { color: var(--color-text-primary); }
+
+.input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 44px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-0);
+  font-size: 15px;
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  outline: none;
+}
+
+.input.noIcon { padding-left: 16px; }
+.input.withSuffix { padding-right: 44px; }
+
+.input::placeholder { color: var(--color-text-tertiary); }
+
+.input:hover { border-color: var(--color-border-strong); }
+
+.input:focus {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(200,169,110,0.15);
+  background: var(--color-surface-0);
+}
+
+.inputWrapper:focus-within .inputIcon {
+  color: var(--color-brand-primary);
+}
+
+.input.error {
+  border-color: var(--color-error);
+  background: var(--color-error-subtle);
+}
+
+.input.error:focus {
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.12);
+}
+
+.fieldError {
+  font-size: 12px;
+  color: var(--color-error);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: fadeUp 0.2s ease;
+}
+
+.fieldSuccess {
+  font-size: 12px;
+  color: var(--color-success);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Password Strength ────────────────────────────────────────────────── */
+.strengthMeter {
+  margin-top: 6px;
+}
+
+.strengthBar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.strengthSegment {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+  transition: background var(--transition-normal);
+}
+
+.strengthSegment.filled.weak   { background: var(--color-error); }
+.strengthSegment.filled.fair   { background: var(--color-warning); }
+.strengthSegment.filled.good   { background: #059669; }
+.strengthSegment.filled.strong { background: var(--color-success); }
+
+.strengthLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+}
+
+.strengthLabel.weak   { color: var(--color-error); }
+.strengthLabel.fair   { color: var(--color-warning); }
+.strengthLabel.good   { color: #059669; }
+.strengthLabel.strong { color: var(--color-success); }
+
+/* ── Checkbox ─────────────────────────────────────────────────────────── */
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  user-select: none;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-brand-primary);
+  cursor: pointer;
+}
+
+.forgotLink {
+  font-size: 13px;
+  color: var(--color-text-brand);
+  font-weight: 500;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition-spring);
+  border: none;
+  width: 100%;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btnPrimary {
+  background: var(--gradient-gold);
+  color: var(--color-brand-secondary);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-1px) scale(1.01);
+}
+
+.btnPrimary:active:not(:disabled) { transform: scale(0.98); }
+
+.btnSecondary {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+  border: 1.5px solid var(--color-border);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  background: var(--color-surface-3);
+  border-color: var(--color-border-strong);
+}
+
+.btnGhost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1.5px solid var(--color-border);
+}
+
+.btnGhost:hover:not(:disabled) { background: var(--color-surface-1); }
+
+.btnSpinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.dividerText {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Alert / Banner ───────────────────────────────────────────────────── */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  animation: fadeUp 0.25s ease;
+}
+
+.alertIcon { flex-shrink: 0; margin-top: 1px; }
+.alertBody { flex: 1; }
+.alertTitle { font-weight: 600; margin-bottom: 2px; }
+.alertMessage { opacity: 0.85; }
+
+.alertError {
+  background: var(--color-error-subtle);
+  border: 1px solid rgba(220,38,38,0.2);
+  color: #991B1B;
+}
+
+.alertSuccess {
+  background: var(--color-success-subtle);
+  border: 1px solid rgba(45,155,111,0.2);
+  color: #065F46;
+}
+
+.alertInfo {
+  background: var(--color-info-subtle);
+  border: 1px solid rgba(37,99,235,0.2);
+  color: #1E40AF;
+}
+
+.alertWarning {
+  background: var(--color-warning-subtle);
+  border: 1px solid rgba(217,119,6,0.2);
+  color: #92400E;
+}
+
+/* ── Auth Footer ──────────────────────────────────────────────────────── */
+.authFooter {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.authFooter a { font-weight: 600; }
+
+/* ── Success Screen ───────────────────────────────────────────────────── */
+.successScreen {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.successIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-success-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: var(--color-success);
+  animation: pulse-gold 2s ease infinite;
+}
+
+.successTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--color-text-primary);
+  margin-bottom: 10px;
+}
+
+.successSubtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* ── Verify Email Screen ──────────────────────────────────────────────── */
+.verifyScreen {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.verifySpinner {
+  width: 52px;
+  height: 52px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-brand-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 20px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .authLayout { grid-template-columns: 1fr; }
+  .authVisual { display: none; }
+  .authForm   { padding: 40px 32px; }
+  .roleGrid   { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .authForm  { padding: 32px 20px; }
+  .fieldRow  { grid-template-columns: 1fr; }
+  .formTitle { font-size: 26px; }
+}
