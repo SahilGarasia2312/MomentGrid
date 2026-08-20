@@ -18,6 +18,7 @@ const albumRoutes = require('./src/presentation/routes/album.routes'); // featur
 const paymentRoutes = require('./src/presentation/routes/payment.routes'); // feature: payment module & invoice routes
 const notificationRoutes = require('./src/presentation/routes/notification.routes'); // feature: notification module routes
 const adminRoutes = require('./src/presentation/routes/admin.routes'); // feature: super admin dashboard routes
+const marketplaceRoutes = require('./src/presentation/routes/marketplace.routes'); // feature: public marketplace discovery routes
 const errorHandler = require('./src/presentation/middleware/errorHandler');
 const requestLogger = require('./src/presentation/middleware/requestLogger');
 
@@ -61,6 +62,7 @@ app.use('/v1/albums', albumRoutes); // feature: album selection API endpoint
 app.use('/v1/payments', paymentRoutes); // feature: payment module API endpoint
 app.use('/v1/notifications', notificationRoutes); // feature: notification module API endpoint
 app.use('/v1/admin', adminRoutes); // feature: super admin dashboard API endpoint
+app.use('/v1/marketplace', marketplaceRoutes); // feature: public marketplace discovery API endpoint
 
 // ── 404 Handler ────────────────────────────────────────────────────────────
 app.use((_req, res) => {

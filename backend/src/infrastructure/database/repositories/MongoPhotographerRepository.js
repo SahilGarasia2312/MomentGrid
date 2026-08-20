@@ -73,6 +73,41 @@ class MongoPhotographerRepository extends IPhotographerRepository {
     return this._toDomain(doc);
   }
 
+  async search({ filters = {}, sortBy = 'newest', page = 1, limit = 12 }) {
+    const query = {};
+
+    if (filters.query) {
+      query.$or = [
+        { fullName: { $regex: filters.query, $options: 'i' } },
+        { bio: { $regex: filters.query, $options: 'i' } },
+      ];
+    }
+    if (filters.specialization) {
+      query.specializations = filters.specialization;
+    }
+    if (filters.minExperience !== undefined) {
+      query.yearsExperience = { $gte: filters.minExperience };
+    }
+    if (filters.minRating !== undefined) {
+      query['stats.averageRating'] = { $gte: filters.minRating };
+    }
+
+    const sortMap = {
+      rating: { 'stats.averageRating': -1 },
+      experience: { yearsExperience: -1 },
+      newest: { createdAt: -1 },
+    };
+    const sort = sortMap[sortBy] || sortMap.newest;
+
+    const skip = (page - 1) * limit;
+    const [docs, total] = await Promise.all([
+      PhotographerModel.find(query).sort(sort).skip(skip).limit(limit).lean(),
+      PhotographerModel.countDocuments(query),
+    ]);
+
+    return { photographers: docs.map((d) => this._toDomain(d)), total };
+  }
+
   async blockDates(photographerId, blockedDatesArray) {
     const doc = await PhotographerModel.findByIdAndUpdate(
       photographerId,

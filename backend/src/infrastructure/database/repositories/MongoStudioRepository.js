@@ -74,6 +74,34 @@ class MongoStudioRepository extends IStudioRepository {
     return this.findById(studio.id);
   }
 
+  async search({ filters = {}, sortBy = 'newest', page = 1, limit = 12 }) {
+    const query = {};
+
+    if (filters.query) {
+      query.$or = [
+        { name: { $regex: filters.query, $options: 'i' } },
+        { about: { $regex: filters.query, $options: 'i' } },
+      ];
+    }
+    if (filters.location) {
+      query.location = { $regex: filters.location, $options: 'i' };
+    }
+
+    const sortMap = {
+      rating: { 'stats.averageRating': -1 },
+      newest: { createdAt: -1 },
+    };
+    const sort = sortMap[sortBy] || sortMap.newest;
+
+    const skip = (page - 1) * limit;
+    const [docs, total] = await Promise.all([
+      StudioModel.find(query).sort(sort).skip(skip).limit(limit).lean(),
+      StudioModel.countDocuments(query),
+    ]);
+
+    return { studios: docs.map((d) => this._toDomain(d)), total };
+  }
+
   async delete(id) {
     await StudioModel.findByIdAndDelete(id);
   }
