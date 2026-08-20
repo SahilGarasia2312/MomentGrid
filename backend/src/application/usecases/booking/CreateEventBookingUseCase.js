@@ -2,6 +2,7 @@
 
 const Event = require('../../../domain/entities/Event');
 const Payment = require('../../../domain/entities/Payment');
+const AppError = require('../../errors/AppError');
 
 /**
  * CreateEventBookingUseCase
@@ -30,14 +31,22 @@ class CreateEventBookingUseCase {
    */
   async execute(dto) {
     if (!dto.studioId || !dto.clientName || !dto.clientEmail || !dto.eventDate || !dto.startTime) {
-      throw new Error('Studio ID, Client Name, Email, Event Date, and Start Time are required.');
+      throw new AppError(
+        'Studio ID, Client Name, Email, Event Date, and Start Time are required.',
+        400,
+        'MISSING_REQUIRED_FIELDS'
+      );
     }
 
     // 1. Double check that the requested time slot is not already booked
     const slots = await this.bookingRepository.findAvailableSlots(dto.studioId, dto.eventDate, 60);
     const targetSlot = slots.find((s) => s.startTime === dto.startTime);
     if (targetSlot && targetSlot.status === 'booked') {
-      throw new Error('The requested time slot is no longer available on the calendar.');
+      throw new AppError(
+        'The requested time slot is no longer available on the calendar.',
+        409,
+        'SLOT_NOT_AVAILABLE'
+      );
     }
 
     // 2. Resolve package price and duration

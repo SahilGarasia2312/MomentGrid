@@ -45,10 +45,13 @@ class Event {
   }
 
   static STATUSES = Object.freeze({
-    REQUESTED: 'requested',
-    CONFIRMED: 'confirmed',
-    COMPLETED: 'completed',
-    CANCELLED: 'cancelled',
+    REQUESTED:             'requested',
+    CONFIRMED:             'confirmed',
+    RESCHEDULE_REQUESTED:  'reschedule_requested',
+    RESCHEDULED:           'rescheduled',
+    COMPLETED:             'completed',
+    CANCELLED:             'cancelled',
+    REFUNDED:              'refunded',
   });
 }
 
