@@ -2,12 +2,14 @@
 
 const SearchStudiosUseCase = require('../../application/usecases/marketplace/SearchStudiosUseCase');
 const SearchPhotographersUseCase = require('../../application/usecases/marketplace/SearchPhotographersUseCase');
+const GetMomentMatchRecommendationsUseCase = require('../../application/usecases/marketplace/GetMomentMatchRecommendationsUseCase');
 const MongoStudioRepository = require('../../infrastructure/database/repositories/MongoStudioRepository');
 const MongoPhotographerRepository = require('../../infrastructure/database/repositories/MongoPhotographerRepository');
 const { ListPackagesUseCase } = require('../../application/usecases/studio/PackageUseCases');
 const MongoPackageRepository = require('../../infrastructure/database/repositories/MongoPackageRepository');
 const { ListReviewsUseCase } = require('../../application/usecases/studio/ReviewUseCases');
 const MongoReviewRepository = require('../../infrastructure/database/repositories/MongoReviewRepository');
+const MongoEventRepository = require('../../infrastructure/database/repositories/MongoEventRepository');
 const AppError = require('../../application/errors/AppError');
 
 // Composed once — no per-request instantiation overhead
@@ -15,6 +17,7 @@ const studioRepo = new MongoStudioRepository();
 const photographerRepo = new MongoPhotographerRepository();
 const packageRepo = new MongoPackageRepository();
 const reviewRepo = new MongoReviewRepository();
+const eventRepo = new MongoEventRepository();
 
 /**
  * MarketplaceController — Public, unauthenticated browsing and discovery.
@@ -93,6 +96,24 @@ class MarketplaceController {
         throw new AppError('Photographer not found.', 404, 'PHOTOGRAPHER_NOT_FOUND');
       }
       return res.status(200).json({ success: true, data: photographer });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * POST /v1/marketplace/momentmatch
+   * Request body: { date, budget, location, eventType, style }
+   */
+  static async momentMatch(req, res, next) {
+    try {
+      const useCase = new GetMomentMatchRecommendationsUseCase({
+        studioRepository: studioRepo,
+        packageRepository: packageRepo,
+        eventRepository: eventRepo
+      });
+      const data = await useCase.execute(req.body);
+      return res.status(200).json({ success: true, data });
     } catch (err) {
       next(err);
     }

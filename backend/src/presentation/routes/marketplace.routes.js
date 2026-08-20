@@ -24,4 +24,8 @@ router.get('/photographers', MarketplaceController.searchPhotographers);
 /** GET /v1/marketplace/photographers/:id — full photographer public profile */
 router.get('/photographers/:id', MarketplaceController.getPhotographerById);
 
+// ── MomentMatch AI-Free Recommendations ─────────────────────────────────────
+/** POST /v1/marketplace/momentmatch */
+router.post('/momentmatch', MarketplaceController.momentMatch);
+
 module.exports = router;
