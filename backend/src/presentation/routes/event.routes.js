@@ -1,0 +1,23 @@
+'use strict';
+
+const { Router } = require('express');
+const EventController = require('../controllers/EventController');
+const requireAuth = require('../middleware/requireAuth');
+const {
+  createEventValidator,
+  updateEventValidator,
+  updateEventStatusValidator,
+} = require('../validators/event.validators');
+
+const router = Router();
+
+// All event routes require authentication
+router.use(requireAuth);
+
+router.post('/', createEventValidator, EventController.createEvent);
+router.get('/', EventController.getEvents);
+router.get('/:id', EventController.getEventDetails);
+router.patch('/:id', updateEventValidator, EventController.updateEvent);
+router.patch('/:id/status', updateEventStatusValidator, EventController.updateStatus);
+
+module.exports = router;

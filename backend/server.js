@@ -13,6 +13,7 @@ const studioRoutes = require('./src/presentation/routes/studio.routes');
 const photographerRoutes = require('./src/presentation/routes/photographer.routes');
 const clientRoutes = require('./src/presentation/routes/client.routes');
 const bookingRoutes = require('./src/presentation/routes/booking.routes'); // feature: event booking system routes
+const eventRoutes = require('./src/presentation/routes/event.routes'); // feature: internal event management routes
 const galleryManagementRoutes = require('./src/presentation/routes/galleryManagement.routes'); // feature: gallery management routes
 const albumRoutes = require('./src/presentation/routes/album.routes'); // feature: album selection & studio review routes
 const paymentRoutes = require('./src/presentation/routes/payment.routes'); // feature: payment module & invoice routes
@@ -57,6 +58,7 @@ app.use('/v1/studio', studioRoutes);
 app.use('/v1/photographers', photographerRoutes);
 app.use('/v1/clients', clientRoutes);
 app.use('/v1/bookings', bookingRoutes); // feature: event booking system REST API endpoint
+app.use('/v1/events', eventRoutes); // feature: internal event management API endpoint
 app.use('/v1/gallery-manager', galleryManagementRoutes); // feature: gallery management API endpoint
 app.use('/v1/albums', albumRoutes); // feature: album selection API endpoint
 app.use('/v1/payments', paymentRoutes); // feature: payment module API endpoint
