@@ -5,10 +5,12 @@ const AppError = require('../../application/errors/AppError');
 
 const MongoProductionRepository = require('../../infrastructure/database/repositories/MongoProductionRepository');
 const MongoEventRepository = require('../../infrastructure/database/repositories/MongoEventRepository');
+const MongoCollaborationRepository = require('../../infrastructure/database/repositories/MongoCollaborationRepository');
 const ProductionUseCases = require('../../application/usecases/production/ProductionUseCases');
 
 const productionRepository = new MongoProductionRepository();
 const eventRepository = new MongoEventRepository();
+const collaborationRepository = new MongoCollaborationRepository();
 
 const assertValid = (req) => {
   const errors = validationResult(req);
@@ -21,7 +23,7 @@ const assertValid = (req) => {
 
 class ProductionController {
   constructor() {
-    this.useCases = new ProductionUseCases({ productionRepository, eventRepository });
+    this.useCases = new ProductionUseCases({ productionRepository, eventRepository, collaborationRepository });
   }
 
   // --- Timeline ---

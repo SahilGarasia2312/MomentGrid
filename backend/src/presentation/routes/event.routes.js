@@ -9,6 +9,7 @@ const {
   updateEventStatusValidator,
 } = require('../validators/event.validators');
 const productionRoutes = require('./production.routes');
+const collaborationRoutes = require('./collaboration.routes');
 
 const router = Router();
 
@@ -21,7 +22,8 @@ router.get('/:id', EventController.getEventDetails);
 router.patch('/:id', updateEventValidator, EventController.updateEvent);
 router.patch('/:id/status', updateEventStatusValidator, EventController.updateStatus);
 
-// Mount nested production routes
+// Mount nested production & collaboration routes
 router.use('/:eventId', productionRoutes);
+router.use('/:eventId', collaborationRoutes);
 
 module.exports = router;
