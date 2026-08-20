@@ -1,5 +1,7 @@
 'use strict';
 
+const AppError = require('../../application/errors/AppError');
+
 /**
  * Album — Pure Domain Entity
  *
@@ -67,7 +69,7 @@ class Album {
   }
 
   toggleFavorite(photoId) {
-    if (!this.canModify()) throw new Error('Cannot modify album selection after submission.');
+    if (!this.canModify()) throw new AppError('Cannot modify album selection after submission.', 403, 'ALBUM_LOCKED');
     // If currently rejected, remove from rejected
     this.rejectedPhotoIds = this.rejectedPhotoIds.filter((id) => id !== photoId);
 
@@ -86,7 +88,7 @@ class Album {
   }
 
   toggleReject(photoId) {
-    if (!this.canModify()) throw new Error('Cannot modify album selection after submission.');
+    if (!this.canModify()) throw new AppError('Cannot modify album selection after submission.', 403, 'ALBUM_LOCKED');
     // If favorited, remove from favorited and ordered
     this.favoritedPhotoIds = this.favoritedPhotoIds.filter((id) => id !== photoId);
     this.orderedPhotoIds = this.orderedPhotoIds.filter((id) => id !== photoId);
@@ -102,14 +104,14 @@ class Album {
   }
 
   setSpreadOrder(newOrderArray) {
-    if (!this.canModify()) throw new Error('Cannot modify album selection after submission.');
-    if (!Array.isArray(newOrderArray)) throw new Error('newOrderArray must be an array of photo IDs.');
+    if (!this.canModify()) throw new AppError('Cannot modify album selection after submission.', 403, 'ALBUM_LOCKED');
+    if (!Array.isArray(newOrderArray)) throw new AppError('newOrderArray must be an array of photo IDs.', 400, 'INVALID_PAYLOAD');
     this.orderedPhotoIds = [...newOrderArray];
     this.updatedAt = new Date();
   }
 
   addOrUpdateComment(photoId, commentText, clientName = null) {
-    if (!this.canModify()) throw new Error('Cannot modify album comments after submission.');
+    if (!this.canModify()) throw new AppError('Cannot modify album comments after submission.', 403, 'ALBUM_LOCKED');
     const trimmed = (commentText || '').trim();
     const existingIndex = this.photoComments.findIndex((c) => c.photoId === photoId);
 
@@ -134,7 +136,7 @@ class Album {
   }
 
   setCoverAndSize({ coverSpecs, albumSize, pageCount, clientNotes }) {
-    if (!this.canModify()) throw new Error('Cannot modify cover and sizing after submission.');
+    if (!this.canModify()) throw new AppError('Cannot modify cover and sizing after submission.', 403, 'ALBUM_LOCKED');
     if (coverSpecs) {
       this.coverSpecs = { ...this.coverSpecs, ...coverSpecs };
     }
@@ -146,10 +148,10 @@ class Album {
 
   submitSelection() {
     if (this.status !== Album.STATUSES.SELECTING) {
-      throw new Error('Album has already been submitted or processed.');
+      throw new AppError('Album has already been submitted or processed.', 400, 'ALBUM_ALREADY_SUBMITTED');
     }
     if (this.favoritedPhotoIds.length === 0 && this.orderedPhotoIds.length === 0) {
-      throw new Error('Please select at least 1 photo for your album spreads before submitting.');
+      throw new AppError('Please select at least 1 photo for your album spreads before submitting.', 400, 'NO_PHOTOS_SELECTED');
     }
     this.status = Album.STATUSES.SUBMITTED;
     this.updatedAt = new Date();
