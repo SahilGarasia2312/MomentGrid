@@ -16,15 +16,6 @@ const requireAdminRole = (req, res, next) => {
   // feature: admin role guard — check authenticated user role
   const user = req.user;
 
-  // Lenient during development: allow requests with x-admin-override header
-  if (process.env.NODE_ENV === 'development') {
-    const override = req.headers['x-admin-override'];
-    if (override === 'superadmin') {
-      req.adminEmail = 'superadmin@momentgrid.com';
-      return next();
-    }
-  }
-
   if (!user) {
     return next(new AppError('Authentication required. Please log in.', 401, 'AUTHENTICATION_REQUIRED'));
   }
