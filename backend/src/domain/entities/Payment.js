@@ -6,6 +6,7 @@
  * Represents an itemized invoice, milestone advance/remaining deposit tracking,
  * and Razorpay online payment transactions associated with a MomentGrid booking/package.
  */
+const AppError = require('../../application/errors/AppError');
 class Payment {
   /**
    * @param {object} props
@@ -71,7 +72,7 @@ class Payment {
         total: this.totalPackageAmount,
       }
     ];
-    this.taxRate = Number(props.taxRate || 18); // default 18% GST/Tax
+    this.taxRate = Number(props.taxRate !== undefined && props.taxRate !== null ? props.taxRate : 18);
     
     // Audit logs
     this.transactions = Array.isArray(props.transactions) ? props.transactions : [];
@@ -185,12 +186,17 @@ class Payment {
    * Initiates a full or partial refund for cancellations or disputed milestones.
    */
   initiateRefund({ amount, reason = 'Client cancellation request', initiatedBy = 'system' }) {
-    const refundAmt = Number(amount) || this.amountPaid;
-    if (refundAmt <= 0) {
-      throw new Error('Refund amount must be greater than zero.');
+    // Explicit amount required — do NOT default to amountPaid to prevent accidental full refund
+    const refundAmt = Number(amount);
+    if (!refundAmt || refundAmt <= 0) {
+      throw new AppError('Refund amount must be greater than zero.', 400, 'INVALID_REFUND_AMOUNT');
     }
     if (refundAmt > this.amountPaid) {
-      throw new Error('Cannot refund an amount exceeding the total amount paid (`amountPaid`).');
+      throw new AppError(
+        'Cannot refund an amount exceeding the total amount paid (`amountPaid`).',
+        400,
+        'REFUND_EXCEEDS_COLLECTED'
+      );
     }
 
     this.amountPaid -= refundAmt;
