@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const ProductionController = require('../controllers/ProductionController');
-const requireAuth = require('../middleware/requireAuth');
+const authenticate = require('../middleware/authenticate');
 const {
   timelineValidator,
   taskValidator,
@@ -13,7 +13,7 @@ const {
 // Note: This router is meant to be mounted on /v1/events/:eventId
 const router = Router({ mergeParams: true });
 
-router.use(requireAuth);
+router.use(authenticate);
 
 // Timeline
 router.route('/timeline')

@@ -2,11 +2,38 @@
 echo "Starting local MongoDB..."
 docker compose up -d
 
-echo "Starting Backend..."
-cd backend && npm run dev &
+# Function to find next available port
+find_port() {
+    local port=$1
+    while lsof -i :$port >/dev/null 2>&1; do
+        port=$((port + 1))
+    done
+    echo $port
+}
 
-echo "Starting Frontend..."
+BACKEND_PORT=$(find_port 4000)
+FRONTEND_PORT=$(find_port 3000)
+
+echo "Starting Backend on port $BACKEND_PORT..."
+export PORT=$BACKEND_PORT
+export CLIENT_URL="http://localhost:$FRONTEND_PORT"
+cd backend && npm run dev &
+BACKEND_PID=$!
+
+echo "Starting Frontend on port $FRONTEND_PORT..."
+export PORT=$FRONTEND_PORT
+export NEXT_PUBLIC_API_URL="http://localhost:$BACKEND_PORT"
 cd frontend && npm run dev &
+FRONTEND_PID=$!
+
+cleanup() {
+    echo "Stopping servers..."
+    # Remove traps to prevent infinite recursion when we kill the process group
+    trap - SIGINT SIGTERM
+    kill -TERM 0
+}
+
+trap cleanup SIGINT SIGTERM
 
 echo "Development environment is running! Press Ctrl+C to stop."
 wait

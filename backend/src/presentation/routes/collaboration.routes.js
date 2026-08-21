@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const CollaborationController = require('../controllers/CollaborationController');
-const requireAuth = require('../middleware/requireAuth');
+const authenticate = require('../middleware/authenticate');
 const {
   teamAssignmentValidator,
   commentValidator
@@ -11,7 +11,7 @@ const {
 // Note: Mounted on /v1/events/:eventId
 const router = Router({ mergeParams: true });
 
-router.use(requireAuth);
+router.use(authenticate);
 
 // Team Assignment
 router.route('/team')

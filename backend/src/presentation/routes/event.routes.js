@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const EventController = require('../controllers/EventController');
-const requireAuth = require('../middleware/requireAuth');
+const authenticate = require('../middleware/authenticate');
 const {
   createEventValidator,
   updateEventValidator,
@@ -14,7 +14,7 @@ const collaborationRoutes = require('./collaboration.routes');
 const router = Router();
 
 // All event routes require authentication
-router.use(requireAuth);
+router.use(authenticate);
 
 router.post('/', createEventValidator, EventController.createEvent);
 router.get('/', EventController.getEvents);
